@@ -22,6 +22,5 @@ async function getData(){
     console.log(`Example app listening on port ${port}`)
   })
 }
-
 getData();
 
