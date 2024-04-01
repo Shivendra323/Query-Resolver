@@ -1,6 +1,6 @@
 const { User } = require('../dbSchema/schema');
 
-async function registerUser(username, email, role, password, confirmPassword) {
+async function registerUser(username, email, password, confirmPassword) {
   try {
     // Check if passwords match
     if (password !== confirmPassword) {
@@ -11,7 +11,6 @@ async function registerUser(username, email, role, password, confirmPassword) {
     const newUser = new User({
       username: username,
       email: email,
-      role: role,
       password: password
     });
 

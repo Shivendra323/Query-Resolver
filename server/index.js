@@ -72,16 +72,16 @@ function cryptoSha(password) {
   
   
   app.post('/signup', async (req, res) => {
-    const { username, email, role, password, confirmPassword } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
       var pw = cryptoSha(password);
       var cpw = cryptoSha(confirmPassword);
   
-    console.log("Signup clicked with username: " + username + ", email: " + email + ", role: " + role + " and password: "+ pw + "  confirm-password: "+  cpw);
+    console.log("Signup clicked with username: " + username + ", email: " + email + ", and password: "+ pw + "  confirm-password: "+  cpw);
   
   
     try {
       // Create new user
-      const newUser = await registerUser(username, email, role, pw, cpw);
+      const newUser = await registerUser(username, email, pw, cpw);
   
       // Redirect to signup success page
       res.sendFile(__dirname + '/view/index.html');
