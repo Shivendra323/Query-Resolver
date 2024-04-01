@@ -24,7 +24,7 @@ function Post({ username, content, imageUrl, initialComments }) {
     transform transition duration-300 hover:scale-105 bg-white rounded-lg shadow-lg'>
       <Card.Header>{username}</Card.Header>
       <Card.Body>
-      {imageUrl && <img src={imageUrl} className='mb-2.5 w-full h-96'/>}
+      {imageUrl && <img src={imageUrl} className='mb-2.5 w-full h-80'/>}
         <Card.Text>{content}</Card.Text>
       </Card.Body>
       <Card.Footer>
