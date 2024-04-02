@@ -1,7 +1,16 @@
-import { Link } from 'react-router-dom';
-import { Nav, Navbar, Button } from 'react-bootstrap';
-
+import React, {useState} from 'react';
+import {Nav, Navbar, Button} from 'react-bootstrap';
+import NewPost from './NewPost';
 function Navigation() {
+  const [showForm, setShowForm] = useState(false);
+
+  const handleLinkClick = () => {
+    setShowForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+  };
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg" className="px-5">
@@ -11,7 +20,9 @@ function Navigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className='mx-auto'>
-            <Nav.Link href="#Post" className="text-white">New Post</Nav.Link>
+            <Nav.Link href="#Create_Post" onClick={handleLinkClick}>New Post</Nav.Link>
+            {/* <Nav.Link href="#link"></Nav.Link>
+            <Nav.Link href="#about"></Nav.Link> */}
           </Nav>
           <Nav>
             <Link to="/login">
@@ -20,6 +31,7 @@ function Navigation() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      {showForm && <NewPost onClose={handleCloseForm} />}
     </>
   );
 }

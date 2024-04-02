@@ -27,7 +27,7 @@ function Post({ username, content, imageUrl, initialComments }) {
 
   return (
     <Card className='mx-auto max-w-7xl h-auto my-3
-    transform transition duration-300 hover:scale-105 bg-white rounded-lg shadow-lg'>
+     bg-white rounded-lg shadow-lg'>
       <Card.Header>{username}</Card.Header>
       <Card.Body>
       {imageUrl && <img src={imageUrl} className='mb-2.5 w-full h-80'/>}
