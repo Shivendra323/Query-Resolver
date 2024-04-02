@@ -12,7 +12,6 @@ const User = mongoose.model('User', userSchema);
 
 // Define the schema for the posts table
 const postSchema = new mongoose.Schema({
-    title: { type: String, required: true, minLength: 1, maxLength: 255 },
     content: { type: String, required: true },
     image: { type: String }, // Assuming image is stored as a path or URL
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

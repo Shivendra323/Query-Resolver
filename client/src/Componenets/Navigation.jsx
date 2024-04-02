@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {Nav, Navbar, Button} from 'react-bootstrap';
 import NewPost from './NewPost';
+import { Link } from 'react-router-dom';
+
 function Navigation() {
   const [showForm, setShowForm] = useState(false);
 
@@ -20,7 +22,7 @@ function Navigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className='mx-auto'>
-            <Nav.Link href="#Create_Post" onClick={handleLinkClick}>New Post</Nav.Link>
+            <Nav.Link onClick={handleLinkClick}>New Post</Nav.Link>
             {/* <Nav.Link href="#link"></Nav.Link>
             <Nav.Link href="#about"></Nav.Link> */}
           </Nav>
