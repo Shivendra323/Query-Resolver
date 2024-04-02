@@ -34,7 +34,7 @@ function NewPost({ onClose }) {
               <Form.Group controlId="formUserInput">
                 <Form.Label className='block mb-1 text-base font-bold text-gray-700'>Query</Form.Label>
                 <Form.Control type="text" placeholder="Enter your text" name="userInput" value={formData.userInput} onChange={handleChange} required className='block w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500' />
-                <Form.Text className="text-xs text-gray-500">This field is mandatory.</Form.Text>
+                <Form.Text className="text-xs text-gray-500">*This field is mandatory.</Form.Text>
               </Form.Group>
         
               <Form.Group controlId="formImageAttachment" className='mt-4'>

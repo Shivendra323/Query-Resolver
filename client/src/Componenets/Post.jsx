@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 
@@ -7,6 +7,7 @@ function Post({ username, content, imageUrl, initialComments }) {
   const [likes, setLikes] = useState(0);
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState(initialComments);
+  const [newComment, setNewComment] = useState('');
 
   const handleLike = () => {
     if (!likedByUserId.includes(userId)) {
@@ -17,6 +18,20 @@ function Post({ username, content, imageUrl, initialComments }) {
 
   const toggleComments = () => {
     setShowComments(!showComments);
+  };
+
+  const handleCommentSubmit = () => {
+    if (newComment.trim() !== '') {
+      setComments([...comments, newComment]);
+      setNewComment('');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent form submission
+      handleCommentSubmit();
+    }
   };
 
   return (
@@ -35,11 +50,21 @@ function Post({ username, content, imageUrl, initialComments }) {
           {showComments ? 'Hide Comments' : 'Show Comments'}
         </Button>
         {showComments && (
-          <ul>
-            {comments.map((comment, index) => (
-              <li key={index}>{comment}</li>
-            ))}
-          </ul>
+          <>
+            <ul>
+              {comments.map((comment, index) => (
+                <li key={index}>{comment}</li>
+              ))}
+            </ul>
+            <Form.Control
+              type="text"
+              placeholder="Add a comment"
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="mb-2"
+            />
+          </>
         )}
       </Card.Footer>
     </Card>
