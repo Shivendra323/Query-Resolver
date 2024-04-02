@@ -43,12 +43,12 @@ function cryptoSha(password) {
   //const loginRoute = require('./routes/login.js');
   const { validateUser } = require('./controllers/loginController.js');
   
-  app.post('/login', async (req, res) => {
+  app.post('http://localhost:5173/login', async (req, res) => {
     const { username, password } = req.body;
     var pw = cryptoSha(password);
     console.log("Login clicked with username: " + username + " and password: " + pw);
     
-    try {
+    /*try {
       // Validate username and password
       const user = await validateUser(username, pw);
   
@@ -63,7 +63,7 @@ function cryptoSha(password) {
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).send('Internal server error');
-    }
+    }*/
   });
   
   
