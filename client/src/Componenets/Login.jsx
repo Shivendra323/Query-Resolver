@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+//import { useHistory } from 'react-router-dom';
+
+
+//const history = useHistory();
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -41,6 +45,15 @@ function Login() {
             console.log('Response from server:', data.message);
             console.log('Session:', data.session);
             // You can handle the response from the server accordingly, such as redirecting the user or showing a success message
+            if (isLogin) {
+              // Example: Redirect user to dashboard page after successful login
+              alert('Login successful.');
+            } else {
+              // Example: Show a success message to the user after successful signup
+              alert('Signup successful. Please login to continue.');
+              // Optionally, you can also toggle the form to show the login form after successful signup
+              setIsLogin(true);
+            }
         } else {
             console.error('Failed to submit form:', response.statusText);
             // Handle error response from server
