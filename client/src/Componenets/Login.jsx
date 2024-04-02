@@ -38,7 +38,8 @@ function Login() {
 
         if (response.ok) {
             const data = await response.json();
-            console.log('Response from server:', data);
+            console.log('Response from server:', data.message);
+            console.log('Session:', data.session);
             // You can handle the response from the server accordingly, such as redirecting the user or showing a success message
         } else {
             console.error('Failed to submit form:', response.statusText);

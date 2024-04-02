@@ -13,8 +13,12 @@ const cors = require('cors'); // Import the cors middleware
 // Creating an Express application
 const app = express();
 
-// Use the cors middleware
-app.use(cors());
+
+// Allow requests from the frontend server
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true // Enable credentials (cookies, authorization headers, etc.)
+}));
 
 const connectionOptions = {
     useNewUrlParser: true,
@@ -60,7 +64,7 @@ function cryptoSha(password) {
         // Set session variables
         req.session.username = email;
         req.session.loggedIn = true;
-        res.send('Login successful');
+        res.json({ message: 'Login successful', session: req.session })
       } else {
         res.status(401).send('Invalid username or password');
       }
@@ -86,7 +90,7 @@ function cryptoSha(password) {
     try {
       // Create new user
       const newUser = await registerUser(username, email, pw, cpw);
-  
+      res.json({ message: 'Sign up successful' });
       // Redirect to signup success page
       //res.sendFile(__dirname + '/view/index.html');
     } catch (error) {

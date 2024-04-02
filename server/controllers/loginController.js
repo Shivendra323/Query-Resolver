@@ -1,9 +1,9 @@
 const { User } = require('../dbSchema/schema');
 
-async function validateUser(username, password) {
+async function validateUser(email, password) {
   try {
     // Find user by username
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ email : email });
 
     // If user not found, return null
     if (!user) {
