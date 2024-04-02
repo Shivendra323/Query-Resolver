@@ -7,10 +7,14 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const crypto = require('crypto');
+const cors = require('cors'); // Import the cors middleware
+
 
 // Creating an Express application
 const app = express();
 
+// Use the cors middleware
+app.use(cors());
 
 const connectionOptions = {
     useNewUrlParser: true,
@@ -43,18 +47,18 @@ function cryptoSha(password) {
   //const loginRoute = require('./routes/login.js');
   const { validateUser } = require('./controllers/loginController.js');
   
-  app.post('http://localhost:5173/login', async (req, res) => {
-    const { username, password } = req.body;
+  app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
     var pw = cryptoSha(password);
-    console.log("Login clicked with username: " + username + " and password: " + pw);
+    console.log("Login clicked with username: " + email + " and password: " + pw);
     
-    /*try {
+    try {
       // Validate username and password
-      const user = await validateUser(username, pw);
+      const user = await validateUser(email, pw);
   
       if (user) {
         // Set session variables
-        req.session.username = username;
+        req.session.username = email;
         req.session.loggedIn = true;
         res.send('Login successful');
       } else {
@@ -63,7 +67,7 @@ function cryptoSha(password) {
     } catch (error) {
       console.error('Error during login:', error);
       res.status(500).send('Internal server error');
-    }*/
+    }
   });
   
   
@@ -84,7 +88,7 @@ function cryptoSha(password) {
       const newUser = await registerUser(username, email, pw, cpw);
   
       // Redirect to signup success page
-      res.sendFile(__dirname + '/view/index.html');
+      //res.sendFile(__dirname + '/view/index.html');
     } catch (error) {
       if (error.message === 'Passwords do not match') {
         res.status(400).send('Passwords do not match');

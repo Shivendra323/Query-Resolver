@@ -21,12 +21,35 @@ function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // POST the form data to the server
-    console.log('Form data:', formData);
-    // Add your fetch or Axios request here to send the form data to the server
-  };
+
+    console.log(formData);
+    try {
+        let url = isLogin ? 'http://localhost:3000/login' : 'http://localhost:3000/signup'; // Determine the correct endpoint based on isLogin state
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+            
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log('Response from server:', data);
+            // You can handle the response from the server accordingly, such as redirecting the user or showing a success message
+        } else {
+            console.error('Failed to submit form:', response.statusText);
+            // Handle error response from server
+        }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle any errors that occur during the form submission process
+    }
+};
+
 
   return (
     <div className="flex justify-center items-center h-screen bg-white text-black">
