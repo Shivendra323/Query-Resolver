@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
 
 function Post({ username, content, imageUrl, initialComments }) {
   const [likes, setLikes] = useState(0);
@@ -46,8 +46,8 @@ function Post({ username, content, imageUrl, initialComments }) {
         <Button variant="light" onClick={handleLike}>
             <FontAwesomeIcon icon={faThumbsUp} /> ({likes})
         </Button>
-        <Button variant="link" onClick={toggleComments}>
-          {showComments ? 'Hide Comments' : 'Show Comments'}
+        <Button variant="light" onClick={toggleComments} className='ml-2'>
+          <FontAwesomeIcon icon={faComment} />
         </Button>
         {showComments && (
           <>
@@ -62,7 +62,7 @@ function Post({ username, content, imageUrl, initialComments }) {
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="mb-2"
+              className="mb-2 mt-2"
             />
           </>
         )}
