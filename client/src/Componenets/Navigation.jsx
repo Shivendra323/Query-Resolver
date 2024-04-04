@@ -1,18 +1,41 @@
-import React, {useState} from 'react';
-import {Nav, Navbar, Button} from 'react-bootstrap';
-import NewPost from './NewPost';
+import React, { useState, useEffect } from 'react';
+import { Nav, Navbar, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import NewPost from './NewPost';
 
 function Navigation() {
   const [showForm, setShowForm] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const sessionData = localStorage.getItem('session');
+    if (sessionData) {
+      const session = JSON.parse(sessionData);
+      setUsername(session.username);
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleLinkClick = () => {
-    setShowForm(true);
+    if(isLoggedIn){
+      setShowForm(true);
+    }else{
+      alert('logging in is mandatory');
+    }
+    
   };
 
   const handleCloseForm = () => {
     setShowForm(false);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem('session');
+    setUsername('');
+    setIsLoggedIn(false);
+  };
+
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg" className="px-5">
@@ -23,13 +46,18 @@ function Navigation() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className='mx-auto'>
             <Nav.Link onClick={handleLinkClick}>New Post</Nav.Link>
-            {/* <Nav.Link href="#link"></Nav.Link>
-            <Nav.Link href="#about"></Nav.Link> */}
           </Nav>
           <Nav>
-            <Link to="/login">
-              <Button variant="outline-light">Login</Button>
-            </Link>
+            {isLoggedIn ? (
+              <>
+                <Nav.Link>Hello, {username}</Nav.Link>
+                <Button variant="outline-light" onClick={handleLogout}>Logout</Button>
+              </>
+            ) : (
+              <Link to="/login">
+                <Button variant="outline-light">Login</Button>
+              </Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

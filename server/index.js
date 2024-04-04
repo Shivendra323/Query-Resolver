@@ -62,7 +62,7 @@ function cryptoSha(password) {
   
       if (user) {
         // Set session variables
-        req.session.username = email;
+        req.session.username = user.username;
         req.session.loggedIn = true;
         res.json({ message: 'Login successful', session: req.session })
       } else {

@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-//import { useHistory } from 'react-router-dom';
 
-
-//const history = useHistory();
 
 function Login() {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,6 +12,12 @@ function Login() {
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
+    setFormData({
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: ''
+    });
   };
 
   const handleChange = (e) => {
@@ -46,8 +49,12 @@ function Login() {
             console.log('Session:', data.session);
             // You can handle the response from the server accordingly, such as redirecting the user or showing a success message
             if (isLogin) {
+              // Example: Set session data in local storage after successful login
+              localStorage.setItem('session', JSON.stringify(data.session));
               // Example: Redirect user to dashboard page after successful login
               alert('Login successful.');
+              // Redirect to dashboard or home page
+              window.location.href = '/';
             } else {
               // Example: Show a success message to the user after successful signup
               alert('Signup successful. Please login to continue.');
@@ -62,6 +69,7 @@ function Login() {
         console.error('Error submitting form:', error);
         // Handle any errors that occur during the form submission process
     }
+    
 };
 
 
