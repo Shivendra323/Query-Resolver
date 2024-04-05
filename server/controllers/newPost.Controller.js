@@ -3,6 +3,7 @@
 
 const newPost =  (req, res) => {
     // Access form data here
+    console.log(req.body);
     const formData = req.file;
     console.log(formData);
     // Process the FormData as needed

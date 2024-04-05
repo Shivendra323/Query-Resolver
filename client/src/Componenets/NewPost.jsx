@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 function NewPost({ onClose }) {
   const [formData, setFormData] = useState({
@@ -27,36 +28,13 @@ function NewPost({ onClose }) {
     console.log(formData);
     try {
       //let url = isLogin ? '' : 'http://localhost:3000/signup'; // Determine the correct endpoint based on isLogin state
-      const response = await fetch("http://localhost:3000/post", {
-        method: 'POST',
-        body: formData,
-
+      const response = await axios.post('http://localhost:3000/post', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Response from server:', data.message);
-        console.log('Session:', data.session);
-        // You can handle the response from the server accordingly, such as redirecting the user or showing a success message
-        if (isLogin) {
-          // Example: Set session data in local storage after successful login
-          localStorage.setItem('session', JSON.stringify(data.session));
-          // Example: Redirect user to dashboard page after successful login
-          alert('Login successful.');
-          // Redirect to dashboard or home page
-          window.location.href = '/';
-        } else {
-          // Example: Show a success message to the user after successful signup
-          alert('Signup successful. Please login to continue.');
-          // Optionally, you can also toggle the form to show the login form after successful signup
-          setIsLogin(true);
-        }
-      } 
-      else {
-        console.error('Failed to submit form:', response.statusText);
-        // Handle error response from server
-      }
-    } 
+    }
     catch (error) {
       console.error('Error submitting form:', error);
       // Handle any errors that occur during the form submission process
