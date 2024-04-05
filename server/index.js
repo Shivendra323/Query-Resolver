@@ -8,11 +8,12 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const crypto = require('crypto');
 const cors = require('cors'); // Import the cors middleware
+const newpostRoute = require("./routes/newPost.routes.js");
 
 
 // Creating an Express application
 const app = express();
-
+//app.use(express.urlencoded({ extended:false }));
 
 // Allow requests from the frontend server
 app.use(cors({
@@ -77,6 +78,15 @@ function cryptoSha(password) {
   
   //const signupRoute = require('./routes/signup.js');
   const { registerUser } = require('./controllers/signupController.js');
+
+  // app.post('/post',async(req,res)=>{
+  //   console.log(req.body);
+  //   res.status(200);
+  // })
+
+  app.use("/post", newpostRoute);
+
+  
   
   
   app.post('/signup', async (req, res) => {
