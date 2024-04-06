@@ -1,14 +1,19 @@
 // Post image to DB
+const {User, Post} = require('../dbSchema/schema.js');
 
-
-const newPost =  (req, res) => {
+const newPost =  async(req, res) => {
     // Access form data here
-    console.log(req.body);
-    const formData = req.file;
-    console.log(formData);
-    // Process the FormData as needed
-    
-    res.send('Form data received successfully.');
+    const user = await User.findOne({ username: req.body.username });
+    const id = user._id;
+    const savePost = new Post({
+      content:req.body.userInput,
+      image:req.file.path,
+      user_id: id,
+    });
+
+    const data = await savePost.save();
+    res.send("Success");
+    return data;
   };
 
   module.exports = {

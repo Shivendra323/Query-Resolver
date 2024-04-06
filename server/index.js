@@ -13,7 +13,6 @@ const newpostRoute = require("./routes/newPost.routes.js");
 
 // Creating an Express application
 const app = express();
-//app.use(express.urlencoded({ extended:false }));
 
 // Allow requests from the frontend server
 app.use(cors({
