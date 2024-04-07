@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const crypto = require('crypto');
 const cors = require('cors'); // Import the cors middleware
-const newpostRoute = require("./routes/newPost.routes.js");
-
+const newPostRoute = require("./routes/newPost.routes.js");
+const getPostRoute = require("./routes/getPost.routes.js")
 
 // Creating an Express application
 const app = express();
@@ -83,7 +83,11 @@ function cryptoSha(password) {
   //   res.status(200);
   // })
 
-  app.use("/post", newpostRoute);
+  //For creating new Post
+  app.use("/", newPostRoute);
+
+  //For fetching all posts
+  app.use('/', getPostRoute);
 
   
   

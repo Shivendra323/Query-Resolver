@@ -1,23 +1,25 @@
 // Post image to DB
 const {User, Post} = require('../dbSchema/schema.js');
+const uploadOnCloudinary = require('../utils/cloudinary.js');
 
 const newPost =  async(req, res) => {
     // Access form data here
     const user = await User.findOne({ username: req.body.username });
-    const id = user._id;
+    const id = user.username;
     let savePost = null;
     if(!req.file){
       savePost = new Post({
         content:req.body.userInput,
         image:null,
-        user_id: id,
+        username: id,
       })
     }
     else{
+      const response = await uploadOnCloudinary(req.file.path);
       savePost = new Post({
         content:req.body.userInput,
-        image:req.file.path,
-        user_id: id,
+        image:response.url,
+        username: id,
       });
     }
     const data = await savePost.save();

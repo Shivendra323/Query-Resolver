@@ -14,7 +14,7 @@ const User = mongoose.model('User', userSchema);
 const postSchema = new mongoose.Schema({
     content: { type: String, required: true },
     image: { type: String }, // Assuming image is stored as a path or URL
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    username: { type: String, ref: "User" },
     created_at: { type: Date, default: Date.now }
 });
 
