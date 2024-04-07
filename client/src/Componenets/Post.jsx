@@ -73,10 +73,10 @@ function Post({ Mydata }) {
   return (
     <Card className='mx-auto max-w-7xl h-auto my-3
      bg-white rounded-lg shadow-lg'>
-      <Card.Header>{Mydata.username}</Card.Header>
+      <Card.Header>{Mydata.post.username}</Card.Header>
       <Card.Body>
-      {Mydata.image && <img src= {Mydata.image} className='mb-2.5 w-full h-80'/>}
-        <Card.Text>{Mydata.content}</Card.Text>
+      {Mydata.post.image && <img src= {Mydata.post.image} className='mb-2.5 w-full h-80'/>}
+        <Card.Text>{Mydata.post.content}</Card.Text>
       </Card.Body>
       <Card.Footer>
         <Button variant="light" onClick={handleLike}>
@@ -90,6 +90,13 @@ function Post({ Mydata }) {
             <ul>
               {comments.map((comment, index) => (
                 <li key={index}>{comment}</li>
+              ))}
+              {Mydata.comments.map((commentObj, index) => (
+                <ul key={index}>
+                  {commentObj.content.map((comment, commentIndex) => (
+                    <li key={commentIndex}>{comment}</li>
+                  ))}
+                </ul>
               ))}
             </ul>
             <Form.Control
