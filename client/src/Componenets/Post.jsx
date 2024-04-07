@@ -43,9 +43,11 @@ function Post({ Mydata }) {
   const handleCommentSubmit = async() => {
     if (newComment.trim() !== '') {
       setComments([...comments, newComment]);
+      const sessionData = localStorage.getItem('session');
+      const session = JSON.parse(sessionData);
       const commentdata = {
         contents : newComment,
-        userId: Mydata.username,
+        userId: session.username,
         postId: Mydata._id
       }
       setNewComment('');
