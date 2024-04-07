@@ -26,9 +26,9 @@ function NewPost({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    const sessionData = localStorage.getItem('session');
-    const session = JSON.parse(sessionData);
-    formData.username = session.username;
+    // const sessionData = localStorage.getItem('session');
+    // const session = JSON.parse(sessionData);
+    // formData.username = session.username;
     try {
       //let url = isLogin ? '' : 'http://localhost:3000/signup'; // Determine the correct endpoint based on isLogin state
       const response = await axios.post('http://localhost:3000/post', formData, {

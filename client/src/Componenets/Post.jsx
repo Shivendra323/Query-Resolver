@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThumbsUp, faComment } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios'
 
 const fetchData = async ()=>{
   try{
@@ -24,8 +25,9 @@ function Post({ Mydata }) {
   //console.log(Mydata);
   const [likes, setLikes] = useState(0);
   const [showComments, setShowComments] = useState(false);
-  //const [comments, setComments] = useState(data.initialComments);
+  const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+
 
   const handleLike = () => {
     if (!likedByUserId.includes(userId)) {
@@ -38,10 +40,24 @@ function Post({ Mydata }) {
     setShowComments(!showComments);
   };
 
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async() => {
     if (newComment.trim() !== '') {
       setComments([...comments, newComment]);
+      const commentdata = {
+        contents : newComment,
+        userId: Mydata.username,
+        postId: Mydata._id
+      }
       setNewComment('');
+      try {
+        //let url = isLogin ? '' : 'http://localhost:3000/signup'; // Determine the correct endpoint based on isLogin state
+        const response = await axios.post('http://localhost:3000/addComment', commentdata);
+      }
+      catch (error) {
+        console.error('Error submitting form:', error);
+        // Handle any errors that occur during the form submission process
+        throw error;
+      }
     }
   };
 

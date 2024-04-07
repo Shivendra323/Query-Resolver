@@ -22,9 +22,8 @@ const Post = mongoose.model('Post', postSchema);
 
 // Define the schema for the comments table
 const commentSchema = new mongoose.Schema({
-    content: { type: String, required: true },
+    content: { type: Array, default: [], required: true },
     post_id: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     created_at: { type: Date, default: Date.now }
 });
 
@@ -33,7 +32,7 @@ const Comment = mongoose.model('Comment', commentSchema);
 // Define the schema for the likes table
 const likeSchema = new mongoose.Schema({
     post_id: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
-    user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    user_id: { type: String, ref: "User" },
     created_at: { type: Date, default: Date.now }
 });
 

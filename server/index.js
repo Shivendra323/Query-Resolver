@@ -10,7 +10,7 @@ const crypto = require('crypto');
 const cors = require('cors'); // Import the cors middleware
 const newPostRoute = require("./routes/newPost.routes.js");
 const getPostRoute = require("./routes/getPost.routes.js")
-
+const newCommentRoute = require("./routes/addComments.routes.js")
 // Creating an Express application
 const app = express();
 
@@ -89,9 +89,10 @@ function cryptoSha(password) {
   //For fetching all posts
   app.use('/', getPostRoute);
 
-  
-  
-  
+  //For adding comment
+  app.use('/', newCommentRoute);
+
+
   app.post('/signup', async (req, res) => {
     const { username, email, password, confirmPassword } = req.body;
       var pw = cryptoSha(password);
