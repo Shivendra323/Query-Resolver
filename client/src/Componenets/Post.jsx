@@ -27,6 +27,8 @@ function Post({ Mydata }) {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
+  const sessionData = localStorage.getItem('session');
+  const session = JSON.parse(sessionData);
 
 
   const handleLike = () => {
@@ -43,8 +45,6 @@ function Post({ Mydata }) {
   const handleCommentSubmit = async() => {
     if (newComment.trim() !== '') {
       setComments([...comments, newComment]);
-      const sessionData = localStorage.getItem('session');
-      const session = JSON.parse(sessionData);
       const commentdata = {
         contents : newComment,
         userId: session.username,
@@ -89,7 +89,7 @@ function Post({ Mydata }) {
           <>
             <ul>
               {comments.map((comment, index) => (
-                <li key={index}>{comment}</li>
+                <li key={index}>{session.username}:{comment}</li>
               ))}
               {Mydata.comments.map((commentObj, index) => (
                 <ul key={index}>

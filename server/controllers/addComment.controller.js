@@ -1,7 +1,7 @@
 const {Comment} = require('../dbSchema/schema.js');
 const addComment = async(req,res)=>{ 
     try {
-        console.log(req.body);
+        //console.log(req.body);
         //Finding if user comment already exist or not
         const commentData = await Comment.findOne({ post_id : req.body.postId});
         let data = null;
