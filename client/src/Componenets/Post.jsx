@@ -89,7 +89,7 @@ function Post({ Mydata }) {
           <>
             <ul>
               {comments.map((comment, index) => (
-                <li key={index}>{session.username}:{comment}</li>
+                <li key={index}>{session.username} : {comment}</li>
               ))}
               {Mydata.comments.map((commentObj, index) => (
                 <ul key={index}>

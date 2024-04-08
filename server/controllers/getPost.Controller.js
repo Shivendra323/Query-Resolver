@@ -12,7 +12,6 @@ const fetchPosts = async(req,res)=>{
         // Fetch comments for each post and parse them
         const postsWithComments = await Promise.all(allPosts.map(async (post) => {
             const comments = await Comment.find({ post_id: post._id }).lean();
-            console.log(comments);
             const like = await Like.find({ post_id: post._id}).lean();
             return { post, comments, like };
         }));

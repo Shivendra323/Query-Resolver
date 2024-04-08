@@ -63,6 +63,16 @@ function Login() {
             }
         } else {
             console.error('Failed to submit form:', response.statusText);
+            if(!isLogin){
+              if(response.status == 400){
+                alert('Password and Confirm Password is not matched.');
+              }else if(response.status == 500){
+                alert('Email Already exist.');
+              }
+            }else{
+              alert('Email Or Password is incorrect.');
+            }
+            
             // Handle error response from server
         }
     } catch (error) {
