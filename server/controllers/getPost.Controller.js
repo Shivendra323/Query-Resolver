@@ -12,6 +12,7 @@ const fetchPosts = async(req,res)=>{
         // Fetch comments for each post and parse them
         const postsWithComments = await Promise.all(allPosts.map(async (post) => {
             const comments = await Comment.find({ post_id: post._id }).lean();
+            console.log(comments);
             const like = await Like.find({ post_id: post._id}).lean();
             return { post, comments, like };
         }));
@@ -26,7 +27,7 @@ const fetchPosts = async(req,res)=>{
         // Convert the sorted array back into a JSON string
         const sortedData = JSON.stringify(data, null, 2);
 
-        console.log(sortedData);
+        //console.log(sortedData);
 
         res.status(200).send(sortedData);
     }

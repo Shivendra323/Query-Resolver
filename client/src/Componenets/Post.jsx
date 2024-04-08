@@ -48,7 +48,7 @@ function Post({ Mydata }) {
       const commentdata = {
         contents : newComment,
         userId: session.username,
-        postId: Mydata._id
+        postId: Mydata.post._id
       }
       setNewComment('');
       try {
@@ -127,12 +127,15 @@ function ParentPost() {
   }, []); // Empty dependency array, so the effect runs only once after the initial render
   return (
     <>
-      {
-        data.map((d, index)=>(
-          //console.log(d);
-          <Post key = {index} Mydata = {d}/>
-        ))
-      }
+      {data.length === 0 ? (
+        <>
+          <h1 className='text-2xl font-bold text-center mt-8 mb-4'>
+            Post your query to get answer from real human beings
+          </h1>
+        </>
+      ) : (
+        data.map((d, index) => <Post key={index} Mydata={d} />)
+      )}
     </>
   )
 }

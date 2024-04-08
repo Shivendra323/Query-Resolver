@@ -4,6 +4,8 @@ const uploadOnCloudinary = require('../utils/cloudinary.js');
 
 const newPost =  async(req, res) => {
     // Access form data here
+    // console.log(req.body);
+    // console.log(req.file);
     const user = await User.findOne({ username: req.body.username });
     const id = user.username;
     let savePost = null;

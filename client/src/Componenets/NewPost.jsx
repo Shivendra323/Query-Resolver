@@ -26,9 +26,10 @@ function NewPost({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    // const sessionData = localStorage.getItem('session');
-    // const session = JSON.parse(sessionData);
-    // formData.username = session.username;
+    onClose();
+    const sessionData = localStorage.getItem('session');
+    const session = JSON.parse(sessionData);
+    formData.username = session.username;
     try {
       //let url = isLogin ? '' : 'http://localhost:3000/signup'; // Determine the correct endpoint based on isLogin state
       const response = await axios.post('http://localhost:3000/post', formData, {
@@ -43,7 +44,7 @@ function NewPost({ onClose }) {
       // Handle any errors that occur during the form submission process
       throw error;
     }
-    onClose();
+    
   };
   return (
     <div className='fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black bg-opacity-50 z-50'>
@@ -57,7 +58,15 @@ function NewPost({ onClose }) {
 
           <Form.Group  className='mt-4'>
             <Form.Label className='block mb-1 text-base font-bold text-gray-700'>Image Attachment</Form.Label>
-            <Form.Control type='file' id="imageAttachment" name="image" label="Choose image" onChange={handleImageChange} accept=".jpg,.jpeg,.png" className='block w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500' />
+            <Form.Control 
+              type='file' 
+              id="imageAttachment" 
+              name="image" 
+              label="Choose image" 
+              onChange={handleImageChange} 
+              accept=".jpg,.jpeg,.png" 
+              className='block w-full px-3 py-2 text-sm border border-gray-300 rounded-md 
+              focus:outline-none focus:border-indigo-500' />
           </Form.Group>
 
           <div className='mt-6'>
