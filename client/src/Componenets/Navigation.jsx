@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Nav, Navbar, Button, Form, FormControl } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NewPost from './NewPost';
-import axios from 'axios';
 
 function Navigation() {
   const [showForm, setShowForm] = useState(false);
@@ -41,18 +40,23 @@ function Navigation() {
   const handleSearch = async (e) => {
     if (e.key === 'Enter') {
       try {
-        const response = await axios.get("http://localhost:3000/getResults", {
-          params: {
-            query: searchQuery
-          }
-        });
-        setSearchResults(response.data); // Update searchResults state with the received data
+        const url = new URL("http://localhost:3000/getResults");
+        url.searchParams.append("query", searchQuery);
+
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setSearchResults(data); // Update searchResults state with the received data
       } catch (error) {
         console.error("Error fetching search results:", error);
       }
     }
   };
-  
+
+
 
   return (
     <>
@@ -91,7 +95,7 @@ function Navigation() {
       </Navbar>
       {showForm && <NewPost onClose={handleCloseForm} />}
       {/* Display search results here */}
-      {/* {searchResults.length > 0 && (
+      {searchResults.length > 0 && (
         <div className="search-results">
           <h5>Search Results:</h5>
           <ul>
@@ -100,7 +104,7 @@ function Navigation() {
             ))}
           </ul>
         </div>
-      )} */}
+      )}
     </>
   );
 }
