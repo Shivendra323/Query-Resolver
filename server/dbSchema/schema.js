@@ -20,13 +20,18 @@ const postSchema = new mongoose.Schema({
 
 const Post = mongoose.model('Post', postSchema);
 
-// Define the schema for the comments table
-const commentSchema = new mongoose.Schema({
-    content: { type: Array, default: [], required: true },
-    post_id: { type: mongoose.Schema.Types.ObjectId, ref: "Post" },
-    created_at: { type: Date, default: Date.now }
+
+const replySchema = new mongoose.Schema({
+  contents: { type: String, required: true },
+  created_at: { type: Date, default: Date.now }
 });
 
+const commentSchema = new mongoose.Schema({
+  contents: { type: String, required: true },
+  post_id: { type: mongoose.Schema.Types.ObjectId, ref: "Post", required: true },
+  replies: [replySchema], // Array of replies
+  created_at: { type: Date, default: Date.now }
+});
 const Comment = mongoose.model('Comment', commentSchema);
 
 // Define the schema for the likes table

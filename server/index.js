@@ -11,6 +11,7 @@ const cors = require('cors'); // Import the cors middleware
 const newPostRoute = require("./routes/newPost.routes.js");
 const getPostRoute = require("./routes/getPost.routes.js")
 const newCommentRoute = require("./routes/addComments.routes.js")
+const addReply = require("./routes/addReplies.routes.js")
 // Creating an Express application
 const app = express();
 
@@ -21,8 +22,8 @@ app.use(cors({
 }));
 
 const connectionOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    // useNewUrlParser: true,
+    // useUnifiedTopology: true,
     dbName: 'QueryResolver',
   };
   
@@ -92,6 +93,9 @@ function cryptoSha(password) {
   //For adding comment
   app.use('/', newCommentRoute);
 
+  //For adding reply
+  app.use('/addReply', addReply);
+
 
   app.post('/signup', async (req, res) => {
     const { username, email, password, confirmPassword } = req.body;
@@ -122,10 +126,10 @@ function cryptoSha(password) {
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Define a route
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
+// // Define a route
+// app.get('/', (req, res) => {
+//     res.send('Hello, World!');
+// });
 //  connect database
 //const schema = require('./dbSchema/schema.js'); // Import the User model from schema.js
 const connectionUri = "mongodb+srv://shivendra2023is21:9aMoXROZMwO9DbDy@cluster0.osrfztt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
