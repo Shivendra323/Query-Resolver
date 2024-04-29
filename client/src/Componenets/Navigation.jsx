@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Nav, Navbar, Button, Form, FormControl } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NewPost from './NewPost';
+import axios from 'axios';
 
 function Navigation() {
   const [showForm, setShowForm] = useState(false);
@@ -20,9 +21,9 @@ function Navigation() {
   }, []);
 
   const handleLinkClick = () => {
-    if(isLoggedIn){
+    if (isLoggedIn) {
       setShowForm(true);
-    }else{
+    } else {
       alert('logging in is mandatory');
     }
   };
@@ -37,13 +38,21 @@ function Navigation() {
     setIsLoggedIn(false);
   };
 
-  const handleSearch = async(e) => {
+  const handleSearch = async (e) => {
     if (e.key === 'Enter') {
-      const response = await axios.get("http://localhost:3000/getResults", {
-        parans: searchQuery
-      })
+      try {
+        const response = await axios.get("http://localhost:3000/getResults", {
+          params: {
+            query: searchQuery
+          }
+        });
+        setSearchResults(response.data); // Update searchResults state with the received data
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      }
     }
   };
+  
 
   return (
     <>
@@ -82,7 +91,7 @@ function Navigation() {
       </Navbar>
       {showForm && <NewPost onClose={handleCloseForm} />}
       {/* Display search results here */}
-      {searchResults.length > 0 && (
+      {/* {searchResults.length > 0 && (
         <div className="search-results">
           <h5>Search Results:</h5>
           <ul>
@@ -91,7 +100,7 @@ function Navigation() {
             ))}
           </ul>
         </div>
-      )}
+      )} */}
     </>
   );
 }

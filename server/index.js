@@ -12,6 +12,7 @@ const newPostRoute = require("./routes/newPost.routes.js");
 const getPostRoute = require("./routes/getPost.routes.js")
 const newCommentRoute = require("./routes/addComments.routes.js")
 const addReply = require("./routes/addReplies.routes.js")
+const getResult = require("./routes/getResult.routes.js")
 // Creating an Express application
 const app = express();
 

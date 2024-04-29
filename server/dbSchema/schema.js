@@ -17,7 +17,7 @@ const postSchema = new mongoose.Schema({
     username: { type: String, ref: "User" },
     created_at: { type: Date, default: Date.now }
 });
-
+postSchema.index({ content: "text" });
 const Post = mongoose.model('Post', postSchema);
 
 
