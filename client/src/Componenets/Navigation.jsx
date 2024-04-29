@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Nav, Navbar, Button } from 'react-bootstrap';
+import { Nav, Navbar, Button, Form, FormControl } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NewPost from './NewPost';
 
@@ -7,6 +7,8 @@ function Navigation() {
   const [showForm, setShowForm] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
     const sessionData = localStorage.getItem('session');
@@ -23,7 +25,6 @@ function Navigation() {
     }else{
       alert('logging in is mandatory');
     }
-    
   };
 
   const handleCloseForm = () => {
@@ -34,6 +35,14 @@ function Navigation() {
     localStorage.removeItem('session');
     setUsername('');
     setIsLoggedIn(false);
+  };
+
+  const handleSearch = async(e) => {
+    if (e.key === 'Enter') {
+      const response = await axios.get("http://localhost:3000/getResults", {
+        parans: searchQuery
+      })
+    }
   };
 
   return (
@@ -47,6 +56,16 @@ function Navigation() {
           <Nav className='mx-auto'>
             <Nav.Link onClick={handleLinkClick}>New Post</Nav.Link>
           </Nav>
+          <Form>
+            <FormControl
+              type="text"
+              placeholder="Search"
+              className="mr-sm-2"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearch}
+            />
+          </Form>
           <Nav>
             {isLoggedIn ? (
               <>
@@ -62,6 +81,17 @@ function Navigation() {
         </Navbar.Collapse>
       </Navbar>
       {showForm && <NewPost onClose={handleCloseForm} />}
+      {/* Display search results here */}
+      {searchResults.length > 0 && (
+        <div className="search-results">
+          <h5>Search Results:</h5>
+          <ul>
+            {searchResults.map(result => (
+              <li key={result.id}>{result.title}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   );
 }

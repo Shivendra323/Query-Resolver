@@ -96,6 +96,8 @@ function cryptoSha(password) {
   //For adding reply
   app.use('/addReply', addReply);
 
+  app.use('/getResults', getResult);
+
 
   app.post('/signup', async (req, res) => {
     const { username, email, password, confirmPassword } = req.body;

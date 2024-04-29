@@ -27,11 +27,16 @@ function Post({ Mydata }) {
   const [replyTo, setReplyTo] = useState(null); // State to track which comment is being replied to
   const [newReply, setNewReply] = useState({}); // State for individual reply inputs
   const [showReplies, setShowReplies] = useState({}); // State to track which replies are visible
+  const [liked, setLiked] = useState(false);
   const sessionData = localStorage.getItem('session');
   const session = JSON.parse(sessionData);
 
   const handleLike = () => {
-    setLikes(likes + 1);
+    if (!liked) {
+      setLikes(likes + 1);
+      setLiked(true);
+      // Add animation here if needed
+    }
   };
 
   const toggleComments = () => {
@@ -87,7 +92,7 @@ function Post({ Mydata }) {
       }
     }
   };
-  
+
 
   const handleKeyDown = (e, commentId) => {
     if (e.key === 'Enter') {
@@ -119,7 +124,7 @@ function Post({ Mydata }) {
         <Card.Text>{Mydata.post.content}</Card.Text>
       </Card.Body>
       <Card.Footer>
-        <Button variant="light" onClick={handleLike}>
+        <Button variant="light" onClick={handleLike} disabled={liked}>
           <FontAwesomeIcon icon={faThumbsUp} /> ({likes})
         </Button>
         <Button variant="light" onClick={toggleComments} className='ml-2'>
