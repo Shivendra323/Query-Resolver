@@ -45,7 +45,9 @@ function Post({ Mydata }) {
           contents: session.username + ": " + newComment,
           postId: Mydata.post._id
         });
-        setComments([...comments, response.data]);
+        // console.log(comments);
+        // console.log(response.data);
+        setComments([...comments, response.data.comment]);
         setNewComment('');
       } catch (error) {
         console.error('Error submitting comment:', error);
@@ -68,13 +70,16 @@ function Post({ Mydata }) {
           commentId,
           contents: session.username + ": " + newReply[commentId],
         });
+        // console.log(response.data);
         const updatedComments = comments.map(comment => {
           if (comment._id === commentId) {
-            comment.replies.push(response.data);
+            comment.replies.push(response.data.comment.replies.pop());
           }
           return comment;
         });
+        console.log(updatedComments);
         setComments(updatedComments);
+        // console.log(comments);
         setNewReply({ ...newReply, [commentId]: '' });
         setShowReplies({ ...showReplies, [commentId]: true }); // Ensure replies are visible after submitting a new reply
       } catch (error) {
@@ -82,6 +87,7 @@ function Post({ Mydata }) {
       }
     }
   };
+  
 
   const handleKeyDown = (e, commentId) => {
     if (e.key === 'Enter') {
@@ -123,7 +129,7 @@ function Post({ Mydata }) {
           <div>
             <ul>
               {comments.map((comment, index) => (
-                <li key={index} style={{ paddingLeft: comment.parent_id ? '20px' : '0' }}>
+                <li key={index}>
                   <strong>{comment.contents}</strong>
                   {comment.replies && (
                     <div>
@@ -136,34 +142,31 @@ function Post({ Mydata }) {
                     <ul>
                       {comment.replies.map((reply, index1) => (
                         <li key={index1} style={{ paddingLeft: '20px' }}>
-                          <strong>{reply.contents}</strong>
+                          <p>{reply.contents}</p>
                         </li>
                       ))}
                     </ul>
                   )}
-
-                  {!comment.parent_id && ( // Render "add reply" button only for main comments
-                    <div>
-                      <Button variant="link" onClick={() => handleAddReply(comment._id)}>
-                        {replyTo === comment._id ? 'Add Reply' : 'Add Reply'}
-                      </Button>
-                      {replyTo === comment._id && ( // Display reply input field only for the selected comment
-                        <div style={{ paddingLeft: '20px' }}>
-                          <Form.Control
-                            type="text"
-                            placeholder="Reply to this comment"
-                            value={newReply[comment._id] || ''}
-                            onChange={(e) => setNewReply({ ...newReply, [comment._id]: e.target.value })}
-                            onKeyDown={(e) => handleKeyDown(e, comment._id)}
-                            className="mb-2 mt-2"
-                          />
-                          <Button variant="link" onClick={() => setReplyTo(null)}>
-                            Cancel
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  )}
+                  <div>
+                    <Button variant="link" onClick={() => handleAddReply(comment._id)}>
+                      Add Reply
+                    </Button>
+                    {replyTo === comment._id && ( // Display reply input field only for the selected comment
+                      <div style={{ paddingLeft: '20px' }}>
+                        <Form.Control
+                          type="text"
+                          placeholder="Reply to this comment"
+                          value={newReply[comment._id] || ''}
+                          onChange={(e) => setNewReply({ ...newReply, [comment._id]: e.target.value })}
+                          onKeyDown={(e) => handleKeyDown(e, comment._id)}
+                          className="mb-2 mt-2"
+                        />
+                        <Button variant="link" onClick={() => setReplyTo(null)}>
+                          Cancel
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>

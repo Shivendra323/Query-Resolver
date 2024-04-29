@@ -37,7 +37,7 @@ function NewPost({ onClose }) {
           'Content-Type': 'multipart/form-data'
         }
       });
-
+      window.location.href = '/';
     }
     catch (error) {
       console.error('Error submitting form:', error);
