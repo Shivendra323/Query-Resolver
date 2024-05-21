@@ -6,12 +6,14 @@ import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } 
 import Layout from './Componenets/Layout.jsx'
 import Post from './Componenets/Post.jsx'
 import Login from './Componenets/Login.jsx'
+import Search from './Componenets/Search.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
-      <Route path='' element={<Post/>}/>
+      <Route path='/' element={<Post/>}/>
       <Route path='login' element={<Login />}/>
+      <Route path='/search/' element = {<Search data = "hello"/>}/>
     </Route>
   )
 )

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Nav, Navbar, Button, Form, FormControl } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { BsSearch } from 'react-icons/bs'; // Importing search icon from React Icons library
 import NewPost from './NewPost';
+import axios from 'axios';
+import Search from './Search';
 
 function Navigation() {
   const [showForm, setShowForm] = useState(false);
@@ -9,6 +12,7 @@ function Navigation() {
   const [username, setUsername] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [searchPerformed, setSearchPerformed] = useState(false); // Track if a search has been performed
 
   useEffect(() => {
     const sessionData = localStorage.getItem('session');
@@ -37,26 +41,20 @@ function Navigation() {
     setIsLoggedIn(false);
   };
 
-  const handleSearch = async (e) => {
-    if (e.key === 'Enter') {
-      try {
-        const url = new URL("http://localhost:3000/getResults");
-        url.searchParams.append("query", searchQuery);
-
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+  const handleSearch = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/getResults", {
+        params: {
+          query: searchQuery
         }
-
-        const data = await response.json();
-        setSearchResults(data); // Update searchResults state with the received data
-      } catch (error) {
-        console.error("Error fetching search results:", error);
-      }
+      });
+      console.log(response);
+      setSearchResults(response.data); // Update searchResults state with the received data
+      setSearchPerformed(true); // Set searchPerformed to true after search
+    } catch (error) {
+      console.error("Error fetching search results:", error);
     }
   };
-
-
 
   return (
     <>
@@ -70,14 +68,20 @@ function Navigation() {
             <Nav.Link onClick={handleLinkClick}>New Post</Nav.Link>
           </Nav>
           <Form>
-            <FormControl
-              type="text"
-              placeholder="Search"
-              className="mr-sm-2"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={handleSearch}
-            />
+            <div className="d-flex">
+              <FormControl
+                type="text"
+                placeholder="Search"
+                className="mr-sm-2"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Link to="/search">
+                <Button variant="light" onClick={handleSearch} className="ml-2">
+                  <BsSearch /> {/* Search icon */}
+                </Button>
+              </Link>
+            </div>
           </Form>
           <Nav>
             {isLoggedIn ? (
@@ -95,16 +99,7 @@ function Navigation() {
       </Navbar>
       {showForm && <NewPost onClose={handleCloseForm} />}
       {/* Display search results here */}
-      {searchResults.length > 0 && (
-        <div className="search-results">
-          <h5>Search Results:</h5>
-          <ul>
-            {searchResults.map(result => (
-              <li key={result.id}>{result.title}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {searchPerformed && <Search data={searchResults} />}
     </>
   );
 }
