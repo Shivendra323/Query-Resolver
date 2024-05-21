@@ -48,7 +48,7 @@ function Navigation() {
           query: searchQuery
         }
       });
-      console.log(response);
+      // console.log(response);
       setSearchResults(response.data); // Update searchResults state with the received data
       setSearchPerformed(true); // Set searchPerformed to true after search
     } catch (error) {
